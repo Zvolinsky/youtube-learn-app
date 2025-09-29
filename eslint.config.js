@@ -15,7 +15,10 @@ module.exports = defineConfig([
       'app.config.js',
       'expo-env.d.ts',
     ],
-    plugins: { 'typescript-eslint': require('@typescript-eslint/eslint-plugin') },
+    plugins: {
+      'typescript-eslint': require('@typescript-eslint/eslint-plugin'),
+      '@tanstack/react-query': require('@tanstack/eslint-plugin-query'),
+    },
     rules: {
       'no-console': 'warn',
       'prefer-const': 'error',

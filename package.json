@@ -17,6 +17,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.90.2",
     "expo": "~54.0.10",
     "expo-constants": "~18.0.9",
     "expo-linking": "~8.0.8",
@@ -28,6 +29,7 @@
     "react-native-screens": "~4.16.0"
   },
   "devDependencies": {
+    "@tanstack/eslint-plugin-query": "^5.91.0",
     "@types/react": "~19.1.0",
     "eslint": "^9.0.0",
     "eslint-config-expo": "~10.0.0",
