@@ -4,15 +4,10 @@ import './global.css';
 
 export default function RootLayout() {
   return (
-    <>
-      <Stack
-        screenOptions={{
-          headerStyle: { backgroundColor: '#1e1e1e' },
-          headerTintColor: '#fff',
-          headerTitleStyle: { fontWeight: 'bold' },
-        }}
-      />
-      <StatusBar style="light" />
-    </>
+    <Stack>
+      <Stack.Screen name="login" options={{ headerShown: false }} />
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen name="video/[id]" options={{ presentation: 'modal' }} />
+    </Stack>
   );
 }
