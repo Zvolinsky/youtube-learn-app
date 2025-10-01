@@ -1,4 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+
+const { colors } = require('./src/tokens/colors');
+
 module.exports = {
   content: [
     './src/components/**/*.{js,jsx,ts,tsx}',
@@ -8,7 +11,13 @@ module.exports = {
   ],
   presets: [require('nativewind/preset')],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: colors.primary,
+        secondary: colors.secondary,
+        accent: colors.accent,
+      },
+    },
   },
   plugins: [],
 };

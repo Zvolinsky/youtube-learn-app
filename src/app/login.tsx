@@ -4,7 +4,7 @@ import { useRouter } from 'expo-router';
 export default function LoginScreen() {
   const router = useRouter();
   return (
-    <View className="flex-1 items-center justify-center bg-white">
+    <View className="flex-1 items-center justify-center bg-slate-500">
       <Text className="text-red-500">Let it go! 🚀</Text>
       <TouchableOpacity
         onPress={() => router.push('/(tabs)')}
