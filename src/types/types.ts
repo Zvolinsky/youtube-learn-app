@@ -3,6 +3,8 @@ export interface Video {
   title: string;
   thumbnail: string;
   description: string;
+  channelTitle?: string;
+  publishedAt: string;
 }
 
 export interface YouTubeSearchItem {
@@ -17,14 +19,20 @@ export interface YouTubeSearchItem {
         url: string;
       };
     };
+    publishedAt: string;
+    channelTitle: string;
   };
 }
 
 export interface YouTubeSearchResponse {
   items: YouTubeSearchItem[];
+  pageInfo: {
+    totalResults: number;
+    resultsPerPage: number;
+  };
 }
 
 export interface SectionData {
   title: string;
-  data: Video[];
+  data: Video[]; // Poprawione: bezpośrednio Video[], bez {videos: Video[]}
 }

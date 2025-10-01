@@ -1,47 +1,22 @@
 import { View, Text, TouchableOpacity, FlatList, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Divider, Searchbar } from 'react-native-paper';
-import { useQuery } from '@tanstack/react-query';
 import VideoItem from '../../components/VideoItem';
-import { Video, SectionData, YouTubeSearchItem, YouTubeSearchResponse } from '@/types/types';
+import { SectionData } from '@/types/types';
 import colors from '@/tokens/colors';
-import Constants from 'expo-constants';
-
-const fetchVideosByTopic = async (topic: string): Promise<Video[]> => {
-  const apiKey = Constants.expoConfig?.extra?.youtubeApiKey;
-  const response = await fetch(
-    `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${topic}&type=video&key=${apiKey}`,
-  );
-  const data: YouTubeSearchResponse = await response.json();
-  return data.items.map((item: YouTubeSearchItem) => ({
-    id: item.id.videoId,
-    title: item.snippet.title,
-    thumbnail: item.snippet.thumbnails.default.url,
-    description: item.snippet.description,
-  }));
-};
+import { useYouTubeVideos } from '@/api/youtube';
+import { useRouter } from 'expo-router';
 
 export default function HomeScreen() {
-  const rnQuery = useQuery<Video[]>({
-    queryKey: ['videos', 'React Native'],
-    queryFn: () => fetchVideosByTopic('React Native tutorial'),
-    staleTime: 1000 * 60 * 60,
-  });
-  const reactQuery = useQuery<Video[]>({
-    queryKey: ['videos', 'React'],
-    queryFn: () => fetchVideosByTopic('React tutorial'),
-    staleTime: 1000 * 60 * 60,
-  });
-  const tsQuery = useQuery<Video[]>({
-    queryKey: ['videos', 'TypeScript'],
-    queryFn: () => fetchVideosByTopic('TypeScript tutorial'),
-    staleTime: 1000 * 60 * 60,
-  });
+  const router = useRouter();
+  const rnVideos = useYouTubeVideos('React Native', 'relevance');
+  const reactVideos = useYouTubeVideos('React', 'relevance');
+  const tsVideos = useYouTubeVideos('TypeScript', 'relevance');
 
   const sections: SectionData[] = [
-    { title: 'React Native', data: rnQuery.data ?? [] },
-    { title: 'React', data: reactQuery.data ?? [] },
-    { title: 'TypeScript', data: tsQuery.data ?? [] },
+    { title: 'React Native', data: rnVideos.data?.videos ?? [] },
+    { title: 'React', data: reactVideos.data?.videos ?? [] },
+    { title: 'TypeScript', data: tsVideos.data?.videos ?? [] },
   ];
 
   return (
@@ -67,8 +42,17 @@ export default function HomeScreen() {
       <ScrollView>
         {sections.map((section, index) => (
           <View key={section.title} className="mb-7">
-            <Text className="font-bold text-2xl px-3 mb-2 text-primary">{section.title}</Text>
-
+            <View className="flex-row justify-between items-baseline">
+              <Text className="font-bold text-2xl px-3 mb-2 text-primary">{section.title}</Text>
+              <Text
+                className="underline text-md px-3 mb-2 text-primary"
+                onPress={() =>
+                  router.push({ pathname: '/search', params: { query: section.title } })
+                }
+              >
+                Show more
+              </Text>
+            </View>
             <FlatList
               data={section.data}
               horizontal
