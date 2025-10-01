@@ -36,3 +36,5 @@ export interface SectionData {
   title: string;
   data: Video[]; // Poprawione: bezpośrednio Video[], bez {videos: Video[]}
 }
+
+export type SortOption = 'date' | 'viewCount' | 'relevance';

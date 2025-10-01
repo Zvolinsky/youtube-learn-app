@@ -5,12 +5,15 @@ import { useYouTubeVideos } from '@/api/youtube';
 import VideoCard from '@/components/VideoCard';
 import { colors } from '@/tokens/colors';
 import { useLocalSearchParams } from 'expo-router/build/hooks';
+import SortModal from '@/components/SortModal';
+import { SortOption } from '@/types/types';
 
 export default function SearchScreen() {
-  const { query: initialQuery = '' } = useLocalSearchParams();
+  const { query: initialQuery = '' } = useLocalSearchParams<{ query?: string }>();
 
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [sortOption, setSortOption] = useState('relevance');
+  const [sortOption, setSortOption] = useState<SortOption>('relevance');
+  const [modalVisible, setModalVisible] = useState(false);
   const setQuery = (text: string) => setSearchQuery(text);
 
   const { data, isLoading, error } = useYouTubeVideos(searchQuery, sortOption);
@@ -21,11 +24,9 @@ export default function SearchScreen() {
   const getSortLabel = () => {
     switch (sortOption) {
       case 'date':
-        return 'Data wysłania: najnowsze';
-      case 'date-asc':
-        return 'Data wysłania: najstarsze'; // Custom: reverse client-side
+        return 'Latest';
       case 'viewCount':
-        return 'Najpopularniejsze';
+        return 'Most Popular';
       default:
         return 'Relevance';
     }
@@ -34,7 +35,9 @@ export default function SearchScreen() {
     setSearchQuery(initialQuery as string);
   }, [initialQuery]);
 
-  const handleOpenModal = () => {};
+  const handleOpenModal = () => setModalVisible(true);
+  const handleCloseModal = () => setModalVisible(false);
+  const handleSortSelect = (option: SortOption) => setSortOption(option);
 
   return (
     <View className="flex-1 bg-white dark:bg-gray-900 px-4 pt-4">
@@ -58,7 +61,7 @@ export default function SearchScreen() {
         <Text className="text-sm text-gray-700 dark:text-gray-300">
           {totalResults} results found for: {searchQuery}
         </Text>
-        <TouchableOpacity onPress={handleOpenModal} accessibilityLabel="Otwórz opcje sortowania">
+        <TouchableOpacity onPress={handleOpenModal}>
           <Text className="text-sm text-blue-500">Sort by {getSortLabel()}</Text>
         </TouchableOpacity>
       </View>
@@ -77,6 +80,13 @@ export default function SearchScreen() {
           showsVerticalScrollIndicator={false}
         />
       )}
+
+      <SortModal
+        visible={modalVisible}
+        onClose={handleCloseModal}
+        onSortSelect={handleSortSelect}
+        currentSort={sortOption}
+      />
     </View>
   );
 }
