@@ -3,7 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Divider, Searchbar } from 'react-native-paper';
 import VideoItem from '../../components/VideoItem';
 import { SectionData } from '@/types/types';
-import colors from '@/tokens/colors';
+import { colors } from '@/tokens/colors';
 import { useYouTubeVideos } from '@/api/youtube';
 import { useRouter } from 'expo-router';
 
@@ -18,6 +18,15 @@ export default function HomeScreen() {
     { title: 'React', data: reactVideos.data?.videos ?? [] },
     { title: 'TypeScript', data: tsVideos.data?.videos ?? [] },
   ];
+
+  if (rnVideos.isLoading || reactVideos.isLoading || tsVideos.isLoading)
+    return <Text>Loading...</Text>;
+  if (rnVideos.error || reactVideos.error || tsVideos.error)
+    return <Text>Error loading videos</Text>;
+
+  const handleShowMore = (query: string) => {
+    router.push(`/search?query=${encodeURIComponent(query)}`);
+  };
 
   return (
     <View className="flex-1 bg-white p-4 gap-8">
@@ -46,9 +55,7 @@ export default function HomeScreen() {
               <Text className="font-bold text-2xl px-3 mb-2 text-primary">{section.title}</Text>
               <Text
                 className="underline text-md px-3 mb-2 text-primary"
-                onPress={() =>
-                  router.push({ pathname: '/search', params: { query: section.title } })
-                }
+                onPress={() => handleShowMore(section.title)}
               >
                 Show more
               </Text>

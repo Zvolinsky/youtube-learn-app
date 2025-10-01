@@ -1,14 +1,15 @@
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { Searchbar } from 'react-native-paper';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useYouTubeVideos } from '@/api/youtube';
 import VideoCard from '@/components/VideoCard';
-import colors from '@/tokens/colors';
+import { colors } from '@/tokens/colors';
 import { useLocalSearchParams } from 'expo-router/build/hooks';
 
 export default function SearchScreen() {
-  const { query } = useLocalSearchParams() as { query: string };
-  const [searchQuery, setSearchQuery] = useState('');
+  const { query: initialQuery = '' } = useLocalSearchParams();
+
+  const [searchQuery, setSearchQuery] = useState<string>('');
   const [sortOption, setSortOption] = useState('relevance');
   const setQuery = (text: string) => setSearchQuery(text);
 
@@ -29,6 +30,9 @@ export default function SearchScreen() {
         return 'Relevance';
     }
   };
+  useEffect(() => {
+    setSearchQuery(initialQuery as string);
+  }, [initialQuery]);
 
   const handleOpenModal = () => {};
 
