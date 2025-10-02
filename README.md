@@ -32,4 +32,3 @@ Rozwiązywanie problemów
 
 Błąd API: Sprawdź YOUTUBE_API_KEY w .env i quota w Google Cloud Console.
 Brak SVG: Upewnij się, że react-native-svg-transformer jest poprawnie skonfigurowany.
-Błąd NitroModules: Jeśli używasz react-native-nitro-modules, włącz nową architekturę (newArchEnabled=true w gradle.properties) i uruchom npx react-native codegen.
