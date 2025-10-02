@@ -7,6 +7,14 @@ export interface Video {
   publishedAt: string;
 }
 
+export interface VideoDetails {
+  title: string;
+  channelTitle: string;
+  description: string;
+  viewCount: number;
+  likeCount: number;
+}
+
 export interface YouTubeSearchItem {
   id: {
     videoId: string;

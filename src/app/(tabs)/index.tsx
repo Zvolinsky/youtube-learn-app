@@ -12,11 +12,13 @@ export default function HomeScreen() {
   const rnVideos = useYouTubeVideos('React Native', 'relevance');
   const reactVideos = useYouTubeVideos('React', 'relevance');
   const tsVideos = useYouTubeVideos('TypeScript', 'relevance');
+  const jsVideos = useYouTubeVideos('JavaScript', 'relevance');
 
   const sections: SectionData[] = [
     { title: 'React Native', data: rnVideos.data?.videos ?? [] },
     { title: 'React', data: reactVideos.data?.videos ?? [] },
     { title: 'TypeScript', data: tsVideos.data?.videos ?? [] },
+    { title: 'JavaScript', data: jsVideos.data?.videos ?? [] },
   ];
 
   if (rnVideos.isLoading || reactVideos.isLoading || tsVideos.isLoading)
@@ -32,6 +34,7 @@ export default function HomeScreen() {
     <View className="flex-1 bg-white p-4 gap-8">
       <View className="flex-row items-center p-2">
         <Searchbar
+          onPress={() => router.push('/search')}
           placeholder="Search videos"
           value={''}
           style={{
@@ -65,11 +68,7 @@ export default function HomeScreen() {
               horizontal
               showsHorizontalScrollIndicator={false}
               keyExtractor={(item) => item.id}
-              renderItem={({ item }) => (
-                <TouchableOpacity onPress={() => {}}>
-                  <VideoItem video={item} />
-                </TouchableOpacity>
-              )}
+              renderItem={({ item }) => <VideoItem video={item} />}
             />
             {index < sections.length - 1 && <Divider bold />}
           </View>

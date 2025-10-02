@@ -21,11 +21,16 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "permissions": [],
+      "package": "com.neonnygus.youtubelearnapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": ["expo-router", "react-native-video"]
+    "plugins": ["expo-router"],
+    "extra": {
+      "router": {}
+    }
   }
 }
