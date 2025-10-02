@@ -13,7 +13,8 @@ npm install
 3. Skonfiguruj zmienną środowiskową
 
 Stwórz plik .env w folderze głównym projektu.
-Dodaj swój klucz YouTube API:YOUTUBE_API_KEY=twój_klucz_api
+Dodaj swój klucz YouTube API:
+YOUTUBE_API_KEY = twój_klucz_api
 
 
 5. Uruchom projekt
